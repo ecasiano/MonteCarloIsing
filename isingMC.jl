@@ -4,6 +4,8 @@
 
 
 using PhysConsts: k
+using Plots
+
 kB = k
 
 #"Ising Model Hamiltonian"
@@ -60,6 +62,10 @@ function isingMC(s,J,T,MC_steps)
 	#Sweep through the lattice, count the nearest neighbor interaction
 	#contribution of each spin to the energy, update spins accordingly
 	
+	println("MC Step: 0")
+	display(s)
+	println("")
+	println("---------------------------------")
 	h = size(s)[1] #height of the Ising lattice
 	w = size(s)[2] #width
 	for k in 1:MC_steps
@@ -99,21 +105,26 @@ function isingMC(s,J,T,MC_steps)
 				end
 			end
 		end
+	println("MC Step: ",@sprintf("%d", k))
+	display(s)
+	println("")
+	println("---------------------------------")
 	end
 s
 end
 
 #Parameters	
-T = 0.1
-J = 5
-L = 10
-MC_steps = 1000
+T = 2.25
+J = 1
+L = 6
+MC_steps = 10
 
 s = createIsingLattice(L)
-println(s)
+
 s = isingMC(s,J,T,MC_steps)
-println(s)
 M = isingMagnetization(s)
 
+#Create heatmap representing Square Ising Lattice
+println("")
 print("Magnetic Moment: ")
 println(M)
